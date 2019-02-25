@@ -1,0 +1,9 @@
+{{ define "main" }} {{ $section := .Site.GetPage "section" .Section }}
+<article class="content">
+  <div class="back">
+    <a href="{{ .Site.BaseURL }}">Back</a>
+  </div>
+  <h1>{{ .Title }}</h1>
+  <main>{{- .Content -}}</main>
+</article>
+{{ end }}
