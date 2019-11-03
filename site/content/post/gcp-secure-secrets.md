@@ -1,7 +1,7 @@
 ---
 title: "Securely Introducing Secrets into Google Compute Instances"
 date: 2019-02-19T17:59:55-05:00
-draft: false
+draft: true
 ---
 
 I recently needed to get a secret into a personal GCP instance. I wanted to stay
