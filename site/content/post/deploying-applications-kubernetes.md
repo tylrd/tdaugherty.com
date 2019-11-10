@@ -1,17 +1,49 @@
 ---
-title: "Deploying Applications to Kubernetes"
+title: "Deploying a Go HTTP server to Kubernetes"
 date: 2019-11-03T13:32:32-05:00
 draft: true
 ---
 
-On the surface, Deploying applications to Kubernetes is very simple. Write some
-YAML, run a command, and you're done. In reality (and production), there are
-many considerations that need to be made to ensure you are safely shipping
-changes to your application. A whole ecosystem of tools has been developed to
-solve this problem.
+This article will cover how I deploy a simple go HTTP web server to Kubernetes.
+We will start with the most simple example and work our way up to more complex.
 
-This series of blog posts will cover the essentials of deploying applications to
-Kubernetes. We will start with very basic Kubernetes fundamentals and then move
-on to more advanced concepts and deployment strategies. Along the way, we will
-see how tools in this space help us achieve deployment Nirvana.
+# Our application
 
+We will build a small API used for managing $ITEMS.
+
+```bash
+$ go mod init
+$ go get github.com/julienschmidt/httprouter
+```
+
+In a `main.go`, we will add bare minimum code for serving a response at `/`:
+
+```go
+package main
+
+import (
+  "fmt"
+  "log"
+  "net/http"
+  
+  "github.com/julienschmidt/httprouter"
+)
+
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+  fmt.Fprint(w, "Hello!")
+}
+
+func main() {
+  router := httprouter.New()
+  router.GET("/", Index)
+  log.Fatal(http.ListenAndServe(":8080", router))
+}
+```
+
+Verify this code locally:
+
+```
+$ go run main.go
+$ curl localhost:8080
+Hello!
+```
