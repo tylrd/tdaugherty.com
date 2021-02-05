@@ -2,5 +2,8 @@
   command = "hugo -d ../dist -s site -v"
   publish = "dist"
 
+[context.branch-deploy]
+  command = "npm run build:preview"
+
 [context.deploy-preview]
   command = "hugo -d ../dist -s site -v -D -F"
